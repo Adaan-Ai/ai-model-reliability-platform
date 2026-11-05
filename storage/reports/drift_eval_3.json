@@ -1,0 +1,74 @@
+{
+  "evaluation_id": 3,
+  "current_version": "2.0",
+  "reference_version": "1.0",
+  "overall_drift_score": 2.6203,
+  "drift_status": "HIGH",
+  "explanation": "Significant data drift detected (mean PSI = 2.6203). Key shifted features: transaction_id, location, amount",
+  "feature_breakdown": [
+    {
+      "feature_name": "transaction_id",
+      "feature_type": "categorical",
+      "psi_score": 18.4342,
+      "p_value": null,
+      "drift_level": "HIGH",
+      "explanation": "Categorical PSI is 18.4342 (HIGH). Category frequency changed."
+    },
+    {
+      "feature_name": "amount",
+      "feature_type": "numerical",
+      "psi_score": 0.5589,
+      "p_value": 0.0,
+      "drift_level": "HIGH",
+      "explanation": "PSI is 0.5589 (HIGH). Distribution shifted compared to v1.0."
+    },
+    {
+      "feature_name": "old_balance",
+      "feature_type": "numerical",
+      "psi_score": 0.332,
+      "p_value": 0.0,
+      "drift_level": "HIGH",
+      "explanation": "PSI is 0.3320 (HIGH). Distribution shifted compared to v1.0."
+    },
+    {
+      "feature_name": "new_balance",
+      "feature_type": "numerical",
+      "psi_score": 0.3004,
+      "p_value": 0.0,
+      "drift_level": "HIGH",
+      "explanation": "PSI is 0.3004 (HIGH). Distribution shifted compared to v1.0."
+    },
+    {
+      "feature_name": "transaction_type",
+      "feature_type": "categorical",
+      "psi_score": 0.3046,
+      "p_value": null,
+      "drift_level": "HIGH",
+      "explanation": "Categorical PSI is 0.3046 (HIGH). Category frequency changed."
+    },
+    {
+      "feature_name": "device_type",
+      "feature_type": "categorical",
+      "psi_score": 0.3003,
+      "p_value": null,
+      "drift_level": "HIGH",
+      "explanation": "Categorical PSI is 0.3003 (HIGH). Category frequency changed."
+    },
+    {
+      "feature_name": "location",
+      "feature_type": "categorical",
+      "psi_score": 0.7322,
+      "p_value": null,
+      "drift_level": "HIGH",
+      "explanation": "Categorical PSI is 0.7322 (HIGH). Category frequency changed."
+    },
+    {
+      "feature_name": "is_fraud",
+      "feature_type": "numerical",
+      "psi_score": 0.0,
+      "p_value": 0.0,
+      "drift_level": "LOW",
+      "explanation": "PSI is 0.0000 (LOW). Distribution shifted compared to v1.0."
+    }
+  ]
+}

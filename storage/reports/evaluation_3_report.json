@@ -1,0 +1,147 @@
+{
+  "evaluation_id": 3,
+  "model_version_id": 2,
+  "algorithm": "Random Forest",
+  "dataset_version_id": 2,
+  "target_column": "is_fraud",
+  "feature_columns": [
+    "transaction_id",
+    "amount",
+    "old_balance",
+    "new_balance",
+    "transaction_type",
+    "device_type",
+    "location"
+  ],
+  "accuracy": 72.33,
+  "precision": 70.68,
+  "recall": 72.33,
+  "f1_score": 69.9,
+  "confusion_matrix": [
+    [
+      182,
+      21
+    ],
+    [
+      62,
+      35
+    ]
+  ],
+  "class_labels": [
+    "0",
+    "1"
+  ],
+  "classification_report": {
+    "0": {
+      "precision": 0.7459016393442623,
+      "recall": 0.896551724137931,
+      "f1-score": 0.814317673378076,
+      "support": 203.0
+    },
+    "1": {
+      "precision": 0.625,
+      "recall": 0.36082474226804123,
+      "f1-score": 0.45751633986928103,
+      "support": 97.0
+    },
+    "accuracy": 0.7233333333333334,
+    "macro avg": {
+      "precision": 0.6854508196721312,
+      "recall": 0.6286882332029862,
+      "f1-score": 0.6359170066236786,
+      "support": 300.0
+    },
+    "weighted avg": {
+      "precision": 0.7068101092896175,
+      "recall": 0.7233333333333334,
+      "f1-score": 0.6989519088768991,
+      "support": 300.0
+    }
+  },
+  "drift_summary": {
+    "evaluation_id": 3,
+    "current_version": "2.0",
+    "reference_version": "1.0",
+    "overall_drift_score": 2.6203,
+    "drift_status": "HIGH",
+    "explanation": "Significant data drift detected (mean PSI = 2.6203). Key shifted features: transaction_id, location, amount",
+    "feature_breakdown": [
+      {
+        "feature_name": "transaction_id",
+        "feature_type": "categorical",
+        "psi_score": 18.4342,
+        "p_value": null,
+        "drift_level": "HIGH",
+        "explanation": "Categorical PSI is 18.4342 (HIGH). Category frequency changed."
+      },
+      {
+        "feature_name": "amount",
+        "feature_type": "numerical",
+        "psi_score": 0.5589,
+        "p_value": 0.0,
+        "drift_level": "HIGH",
+        "explanation": "PSI is 0.5589 (HIGH). Distribution shifted compared to v1.0."
+      },
+      {
+        "feature_name": "old_balance",
+        "feature_type": "numerical",
+        "psi_score": 0.332,
+        "p_value": 0.0,
+        "drift_level": "HIGH",
+        "explanation": "PSI is 0.3320 (HIGH). Distribution shifted compared to v1.0."
+      },
+      {
+        "feature_name": "new_balance",
+        "feature_type": "numerical",
+        "psi_score": 0.3004,
+        "p_value": 0.0,
+        "drift_level": "HIGH",
+        "explanation": "PSI is 0.3004 (HIGH). Distribution shifted compared to v1.0."
+      },
+      {
+        "feature_name": "transaction_type",
+        "feature_type": "categorical",
+        "psi_score": 0.3046,
+        "p_value": null,
+        "drift_level": "HIGH",
+        "explanation": "Categorical PSI is 0.3046 (HIGH). Category frequency changed."
+      },
+      {
+        "feature_name": "device_type",
+        "feature_type": "categorical",
+        "psi_score": 0.3003,
+        "p_value": null,
+        "drift_level": "HIGH",
+        "explanation": "Categorical PSI is 0.3003 (HIGH). Category frequency changed."
+      },
+      {
+        "feature_name": "location",
+        "feature_type": "categorical",
+        "psi_score": 0.7322,
+        "p_value": null,
+        "drift_level": "HIGH",
+        "explanation": "Categorical PSI is 0.7322 (HIGH). Category frequency changed."
+      },
+      {
+        "feature_name": "is_fraud",
+        "feature_type": "numerical",
+        "psi_score": 0.0,
+        "p_value": 0.0,
+        "drift_level": "LOW",
+        "explanation": "PSI is 0.0000 (LOW). Distribution shifted compared to v1.0."
+      }
+    ]
+  },
+  "reliability_score": 66.88,
+  "reliability_rating": "MEDIUM",
+  "reasons": [
+    "Data quality is strong (100.0/100) with minimal missing or duplicate values.",
+    "Model performance is acceptable (70.9/100), but precision or recall can be optimized.",
+    "Significant feature drift detected (0.0/100 drift health); population has materially shifted."
+  ],
+  "recommendations": [
+    "Tune classification threshold or experiment with ensemble methods (e.g. Random Forest).",
+    "Immediate retraining required: current production data no longer matches model training distribution.",
+    "System is moderately reliable; review warnings before automated decision-making."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "evaluation_id": 1,
+  "current_version": "1.0",
+  "reference_version": null,
+  "overall_drift_score": 0.0,
+  "drift_status": "LOW",
+  "explanation": "No prior reference version found for this dataset. This version serves as the initial statistical baseline.",
+  "feature_breakdown": []
+}

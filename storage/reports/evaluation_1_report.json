@@ -1,0 +1,81 @@
+{
+  "evaluation_id": 1,
+  "model_version_id": 1,
+  "algorithm": "Logistic Regression",
+  "dataset_version_id": 1,
+  "target_column": "is_fraud",
+  "feature_columns": [
+    "transaction_id",
+    "amount",
+    "old_balance",
+    "new_balance",
+    "transaction_type",
+    "device_type",
+    "location"
+  ],
+  "accuracy": 84.36,
+  "precision": 81.93,
+  "recall": 84.36,
+  "f1_score": 82.42,
+  "confusion_matrix": [
+    [
+      193,
+      10
+    ],
+    [
+      28,
+      12
+    ]
+  ],
+  "class_labels": [
+    "0",
+    "1"
+  ],
+  "classification_report": {
+    "0": {
+      "precision": 0.8733031674208145,
+      "recall": 0.9507389162561576,
+      "f1-score": 0.910377358490566,
+      "support": 203.0
+    },
+    "1": {
+      "precision": 0.5454545454545454,
+      "recall": 0.3,
+      "f1-score": 0.3870967741935484,
+      "support": 40.0
+    },
+    "accuracy": 0.8436213991769548,
+    "macro avg": {
+      "precision": 0.70937885643768,
+      "recall": 0.6253694581280788,
+      "f1-score": 0.6487370663420572,
+      "support": 243.0
+    },
+    "weighted avg": {
+      "precision": 0.8193363160683421,
+      "recall": 0.8436213991769548,
+      "f1-score": 0.8242406367955836,
+      "support": 243.0
+    }
+  },
+  "drift_summary": {
+    "evaluation_id": 1,
+    "current_version": "1.0",
+    "reference_version": null,
+    "overall_drift_score": 0.0,
+    "drift_status": "LOW",
+    "explanation": "No prior reference version found for this dataset. This version serves as the initial statistical baseline.",
+    "feature_breakdown": []
+  },
+  "reliability_score": 92.09,
+  "reliability_rating": "HIGH",
+  "reasons": [
+    "Data quality is strong (99.0/100) with minimal missing or duplicate values.",
+    "Model performance is acceptable (83.2/100), but precision or recall can be optimized.",
+    "Data distribution is stable (100.0/100 drift health) compared to the baseline."
+  ],
+  "recommendations": [
+    "Tune classification threshold or experiment with ensemble methods (e.g. Random Forest).",
+    "System is verified reliable and approved for production inference."
+  ]
+}

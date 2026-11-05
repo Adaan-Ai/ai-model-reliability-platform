@@ -1,0 +1,74 @@
+{
+  "evaluation_id": 5,
+  "current_version": "1.1",
+  "reference_version": "1.0",
+  "overall_drift_score": 0.4365,
+  "drift_status": "HIGH",
+  "explanation": "Significant data drift detected (mean PSI = 0.4365). Key shifted features: customer_id, monthly_charges, total_charges",
+  "feature_breakdown": [
+    {
+      "feature_name": "customer_id",
+      "feature_type": "categorical",
+      "psi_score": 3.4744,
+      "p_value": null,
+      "drift_level": "HIGH",
+      "explanation": "Categorical PSI is 3.4744 (HIGH). Category frequency changed."
+    },
+    {
+      "feature_name": "tenure_months",
+      "feature_type": "numerical",
+      "psi_score": 0.0014,
+      "p_value": 0.99996,
+      "drift_level": "LOW",
+      "explanation": "PSI is 0.0014 (LOW). Distribution shifted compared to v1.0."
+    },
+    {
+      "feature_name": "monthly_charges",
+      "feature_type": "numerical",
+      "psi_score": 0.0096,
+      "p_value": 0.72262,
+      "drift_level": "LOW",
+      "explanation": "PSI is 0.0096 (LOW). Distribution shifted compared to v1.0."
+    },
+    {
+      "feature_name": "total_charges",
+      "feature_type": "numerical",
+      "psi_score": 0.005,
+      "p_value": 0.92328,
+      "drift_level": "LOW",
+      "explanation": "PSI is 0.0050 (LOW). Distribution shifted compared to v1.0."
+    },
+    {
+      "feature_name": "contract_type",
+      "feature_type": "categorical",
+      "psi_score": 0.0002,
+      "p_value": null,
+      "drift_level": "LOW",
+      "explanation": "Categorical PSI is 0.0002 (LOW). Category frequency changed."
+    },
+    {
+      "feature_name": "payment_method",
+      "feature_type": "categorical",
+      "psi_score": 0.0008,
+      "p_value": null,
+      "drift_level": "LOW",
+      "explanation": "Categorical PSI is 0.0008 (LOW). Category frequency changed."
+    },
+    {
+      "feature_name": "internet_service",
+      "feature_type": "categorical",
+      "psi_score": 0.0002,
+      "p_value": null,
+      "drift_level": "LOW",
+      "explanation": "Categorical PSI is 0.0002 (LOW). Category frequency changed."
+    },
+    {
+      "feature_name": "churn",
+      "feature_type": "numerical",
+      "psi_score": 0.0,
+      "p_value": 1.0,
+      "drift_level": "LOW",
+      "explanation": "PSI is 0.0000 (LOW). Distribution shifted compared to v1.0."
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "evaluation_id": 5,
+  "model_version_id": 5,
+  "algorithm": "Random Forest",
+  "dataset_version_id": 4,
+  "target_column": "churn",
+  "feature_columns": [
+    "customer_id",
+    "tenure_months",
+    "monthly_charges",
+    "total_charges",
+    "contract_type",
+    "payment_method",
+    "internet_service"
+  ],
+  "accuracy": 69.09,
+  "precision": 66.77,
+  "recall": 69.09,
+  "f1_score": 66.27,
+  "confusion_matrix": [
+    [
+      129,
+      18
+    ],
+    [
+      50,
+      23
+    ]
+  ],
+  "class_labels": [
+    "0",
+    "1"
+  ],
+  "classification_report": {
+    "0": {
+      "precision": 0.7206703910614525,
+      "recall": 0.8775510204081632,
+      "f1-score": 0.7914110429447853,
+      "support": 147.0
+    },
+    "1": {
+      "precision": 0.5609756097560976,
+      "recall": 0.3150684931506849,
+      "f1-score": 0.40350877192982454,
+      "support": 73.0
+    },
+    "accuracy": 0.6909090909090909,
+    "macro avg": {
+      "precision": 0.640823000408775,
+      "recall": 0.5963097567794241,
+      "f1-score": 0.5974599074373049,
+      "support": 220.0
+    },
+    "weighted avg": {
+      "precision": 0.6676807590828575,
+      "recall": 0.6909090909090909,
+      "f1-score": 0.6626980166534573,
+      "support": 220.0
+    }
+  },
+  "drift_summary": {
+    "evaluation_id": 5,
+    "current_version": "1.1",
+    "reference_version": "1.0",
+    "overall_drift_score": 0.4365,
+    "drift_status": "HIGH",
+    "explanation": "Significant data drift detected (mean PSI = 0.4365). Key shifted features: customer_id, monthly_charges, total_charges",
+    "feature_breakdown": [
+      {
+        "feature_name": "customer_id",
+        "feature_type": "categorical",
+        "psi_score": 3.4744,
+        "p_value": null,
+        "drift_level": "HIGH",
+        "explanation": "Categorical PSI is 3.4744 (HIGH). Category frequency changed."
+      },
+      {
+        "feature_name": "tenure_months",
+        "feature_type": "numerical",
+        "psi_score": 0.0014,
+        "p_value": 0.99996,
+        "drift_level": "LOW",
+        "explanation": "PSI is 0.0014 (LOW). Distribution shifted compared to v1.0."
+      },
+      {
+        "feature_name": "monthly_charges",
+        "feature_type": "numerical",
+        "psi_score": 0.0096,
+        "p_value": 0.72262,
+        "drift_level": "LOW",
+        "explanation": "PSI is 0.0096 (LOW). Distribution shifted compared to v1.0."
+      },
+      {
+        "feature_name": "total_charges",
+        "feature_type": "numerical",
+        "psi_score": 0.005,
+        "p_value": 0.92328,
+        "drift_level": "LOW",
+        "explanation": "PSI is 0.0050 (LOW). Distribution shifted compared to v1.0."
+      },
+      {
+        "feature_name": "contract_type",
+        "feature_type": "categorical",
+        "psi_score": 0.0002,
+        "p_value": null,
+        "drift_level": "LOW",
+        "explanation": "Categorical PSI is 0.0002 (LOW). Category frequency changed."
+      },
+      {
+        "feature_name": "payment_method",
+        "feature_type": "categorical",
+        "psi_score": 0.0008,
+        "p_value": null,
+        "drift_level": "LOW",
+        "explanation": "Categorical PSI is 0.0008 (LOW). Category frequency changed."
+      },
+      {
+        "feature_name": "internet_service",
+        "feature_type": "categorical",
+        "psi_score": 0.0002,
+        "p_value": null,
+        "drift_level": "LOW",
+        "explanation": "Categorical PSI is 0.0002 (LOW). Category frequency changed."
+      },
+      {
+        "feature_name": "churn",
+        "feature_type": "numerical",
+        "psi_score": 0.0,
+        "p_value": 1.0,
+        "drift_level": "LOW",
+        "explanation": "PSI is 0.0000 (LOW). Distribution shifted compared to v1.0."
+      }
+    ]
+  },
+  "reliability_score": 67.87,
+  "reliability_rating": "MEDIUM",
+  "reasons": [
+    "Data quality is strong (100.0/100) with minimal missing or duplicate values.",
+    "Model performance is acceptable (67.4/100), but precision or recall can be optimized.",
+    "Significant feature drift detected (12.7/100 drift health); population has materially shifted."
+  ],
+  "recommendations": [
+    "Tune classification threshold or experiment with ensemble methods (e.g. Random Forest).",
+    "Immediate retraining required: current production data no longer matches model training distribution.",
+    "System is moderately reliable; review warnings before automated decision-making."
+  ]
+}
