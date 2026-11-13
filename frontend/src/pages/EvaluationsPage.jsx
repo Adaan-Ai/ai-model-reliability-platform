@@ -36,6 +36,7 @@ export default function EvaluationsPage({
   const [loading, setLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
   const [runSearch, setRunSearch] = useState('');
+  const [reliabilityFilter, setReliabilityFilter] = useState('ALL');
 
   // Run modal state
   const [modalOpen, setModalOpen] = useState(showLaunchModal || false);
@@ -154,13 +155,14 @@ export default function EvaluationsPage({
 
   const visibleEvaluations = evaluations.filter((run) => {
     const query = runSearch.trim().toLowerCase();
-    if (!query) return true;
-    return [
+    const matchesSearch = !query || [
       run.evaluation_id,
       run.model_name,
       run.dataset_name,
       run.algorithm,
     ].some((value) => String(value || '').toLowerCase().includes(query));
+    const rating = run.reliability?.rating || 'N/A';
+    return matchesSearch && (reliabilityFilter === 'ALL' || rating === reliabilityFilter);
   });
 
   const handleLaunchEvaluation = async (e) => {
@@ -221,17 +223,32 @@ export default function EvaluationsPage({
             </button>
           </div>
 
-          <label className="relative block">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="search"
-              placeholder="Search run, model, dataset, or algorithm..."
-              value={runSearch}
-              onChange={(event) => setRunSearch(event.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition"
-              aria-label="Search evaluation runs"
-            />
-          </label>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <label className="relative block flex-1">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="search"
+                placeholder="Search run, model, dataset, or algorithm..."
+                value={runSearch}
+                onChange={(event) => setRunSearch(event.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition"
+                aria-label="Search evaluation runs"
+              />
+            </label>
+            <label className="sr-only" htmlFor="reliability-filter">Filter by reliability rating</label>
+            <select
+              id="reliability-filter"
+              value={reliabilityFilter}
+              onChange={(event) => setReliabilityFilter(event.target.value)}
+              className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+            >
+              <option value="ALL">All ratings</option>
+              <option value="HIGH">High reliability</option>
+              <option value="MEDIUM">Medium reliability</option>
+              <option value="LOW">Low reliability</option>
+              <option value="N/A">Not rated</option>
+            </select>
+          </div>
 
           <div className="space-y-2 max-h-[700px] overflow-y-auto pr-1">
             {loading ? (
