@@ -4,6 +4,8 @@ FastAPI Application Entry Point
 DBMS Project - Mohammed Adaan Hamad & Navya Kishore Dash
 """
 
+import logging
+
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -21,6 +23,8 @@ from app.routers import (
     reports_router,
     dashboard_router,
 )
+
+logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app with OpenAPI metadata
 app = FastAPI(
@@ -63,9 +67,10 @@ app.add_middleware(
 # Centralized Exception Handler
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    logger.exception("Unhandled error while processing %s %s", request.method, request.url.path)
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"detail": f"Internal server error: {str(exc)}"}
+        content={"detail": "Internal server error."}
     )
 
 # Include Domain Routers under /api
