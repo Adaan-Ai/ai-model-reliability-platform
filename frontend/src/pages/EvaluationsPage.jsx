@@ -37,6 +37,7 @@ export default function EvaluationsPage({
   const [detailLoading, setDetailLoading] = useState(false);
   const [runSearch, setRunSearch] = useState('');
   const [reliabilityFilter, setReliabilityFilter] = useState('ALL');
+  const [runSort, setRunSort] = useState('NEWEST');
 
   // Run modal state
   const [modalOpen, setModalOpen] = useState(showLaunchModal || false);
@@ -164,6 +165,9 @@ export default function EvaluationsPage({
     const rating = run.reliability?.rating || 'N/A';
     return matchesSearch && (reliabilityFilter === 'ALL' || rating === reliabilityFilter);
   });
+  if (runSort === 'ACCURACY') {
+    visibleEvaluations.sort((a, b) => (Number(b.result?.accuracy) || 0) - (Number(a.result?.accuracy) || 0));
+  }
 
   const handleLaunchEvaluation = async (e) => {
     e.preventDefault();
@@ -247,6 +251,16 @@ export default function EvaluationsPage({
               <option value="MEDIUM">Medium reliability</option>
               <option value="LOW">Low reliability</option>
               <option value="N/A">Not rated</option>
+            </select>
+            <label className="sr-only" htmlFor="evaluation-sort">Sort evaluation runs</label>
+            <select
+              id="evaluation-sort"
+              value={runSort}
+              onChange={(event) => setRunSort(event.target.value)}
+              className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+            >
+              <option value="NEWEST">Newest first</option>
+              <option value="ACCURACY">Best accuracy</option>
             </select>
           </div>
 
