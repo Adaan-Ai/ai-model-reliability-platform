@@ -22,7 +22,7 @@ The database architecture is designed in **Third Normal Form (3NF)** and strictl
   - One `user` can own multiple `dataset` records (1:N).
   - One `user` can own multiple `ai_model` records (1:N).
   - One `user` can execute multiple `evaluation_run` records (1:N).
-- **Real-World Example:** `Mohammed Adaan Hamad`, `Lead ML Engineer`, `Data Science`.
+- **Real-World Example:** `Mohammed Adaan Hamad`, `Lead Engineer`, `Data Science`.
 
 ---
 

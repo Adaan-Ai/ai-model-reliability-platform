@@ -198,9 +198,9 @@ def run_seed():
 
         # 1. Seed USERS
         print("\n1. Creating Demo Users...")
-        u1 = User(name="Mohammed Adaan Hamad", email="adaan@pesu.edu", role="Lead ML Engineer", department="Data Science")
-        u2 = User(name="Navya Kishore Dash", email="navya@pesu.edu", role="Data Architect", department="Data Platform")
-        u3 = User(name="Dr. Rajesh Kumar", email="rajesh.kumar@pesu.edu", role="Faculty Advisor", department="Computer Science")
+        u1 = User(name="Mohammed Adaan Hamad", email="adaan@pesu.edu", role="Lead Engineer", department="Data Science")
+        u2 = User(name="Navya Kishore Dash", email="navya@pesu.edu", role="Co-Engineer", department="Data Platform")
+        u3 = User(name="Dr. Deena Hijam", email="deena.hijam@pesu.edu", role="Faculty Advisor", department="Computer Science")
         db.add_all([u1, u2, u3])
         db.commit()
         db.refresh(u1)

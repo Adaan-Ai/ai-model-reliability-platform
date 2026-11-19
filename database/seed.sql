@@ -131,7 +131,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Mohammed Adaan Hamad','adaan@pesu.edu','Lead ML Engineer','Data Science'),(2,'Navya Kishore Dash','navya@pesu.edu','Data Architect','Data Platform'),(3,'Dr. Rajesh Kumar','rajesh.kumar@pesu.edu','Faculty Advisor','Computer Science');
+INSERT INTO `user` VALUES (1,'Mohammed Adaan Hamad','adaan@pesu.edu','Lead Engineer','Data Science'),(2,'Navya Kishore Dash','navya@pesu.edu','Co-Engineer','Data Platform'),(3,'Dr. Deena Hijam','deena.hijam@pesu.edu','Faculty Advisor','Computer Science');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
