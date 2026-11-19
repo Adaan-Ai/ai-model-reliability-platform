@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   ExternalLink,
   ChevronRight,
-  Filter
+  Filter,
+  Trash2
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -20,6 +21,8 @@ export default function DatasetsPage({ onSelectDataset, onNavigate }) {
   const [datasets, setDatasets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+  const [deletingDatasetId, setDeletingDatasetId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   
   // Upload modal state
@@ -106,6 +109,24 @@ export default function DatasetsPage({ onSelectDataset, onNavigate }) {
     }
   };
 
+  const handleDeleteDataset = async (dataset) => {
+    const confirmed = window.confirm(
+      `Delete "${dataset.dataset_name}" and all its versions, quality checks, and evaluation history? This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setDeletingDatasetId(dataset.dataset_id);
+    setDeleteError(null);
+    try {
+      await api.deleteDataset(dataset.dataset_id);
+      setDatasets((current) => current.filter((item) => item.dataset_id !== dataset.dataset_id));
+    } catch (err) {
+      setDeleteError(err.message || `Failed to delete "${dataset.dataset_name}".`);
+    } finally {
+      setDeletingDatasetId(null);
+    }
+  };
+
   const filteredDatasets = datasets.filter((d) =>
     d.dataset_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (d.description && d.description.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -174,6 +195,12 @@ export default function DatasetsPage({ onSelectDataset, onNavigate }) {
           </button>
         </div>
       ) : (
+        <>
+        {deleteError && (
+          <div role="alert" className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-xs">
+            {deleteError}
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredDatasets.map((dataset) => (
             <div
@@ -244,10 +271,22 @@ export default function DatasetsPage({ onSelectDataset, onNavigate }) {
                 >
                   Quality Checks
                 </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteDataset(dataset)}
+                  disabled={deletingDatasetId === dataset.dataset_id}
+                  title="Delete dataset and all related history"
+                  aria-label={`Delete ${dataset.dataset_name}`}
+                  className="inline-flex items-center space-x-1 text-xs font-medium text-rose-600 hover:text-rose-800 disabled:opacity-50"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>{deletingDatasetId === dataset.dataset_id ? 'Deleting...' : 'Delete'}</span>
+                </button>
               </div>
             </div>
           ))}
         </div>
+        </>
       )}
 
       {/* Upload CSV Modal */}

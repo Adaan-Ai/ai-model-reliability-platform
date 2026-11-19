@@ -23,4 +23,4 @@ class DatasetVersion(Base):
     # Relationships
     dataset = relationship("Dataset", back_populates="versions")
     quality_results = relationship("DataQualityResult", back_populates="dataset_version", cascade="all, delete-orphan")
-    evaluations = relationship("EvaluationRun", back_populates="dataset_version")
+    evaluations = relationship("EvaluationRun", back_populates="dataset_version", cascade="all, delete-orphan")

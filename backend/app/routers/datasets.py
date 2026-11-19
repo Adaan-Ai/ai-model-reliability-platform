@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, s
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
+from app.config import settings
 from app.database import get_db
 from app.models.dataset import Dataset
 from app.models.dataset_version import DatasetVersion
@@ -209,12 +210,43 @@ def update_dataset(dataset_id: int, d_up: DatasetUpdate, db: Session = Depends(g
 
 @router.delete("/datasets/{dataset_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_dataset(dataset_id: int, db: Session = Depends(get_db)):
-    """Delete a dataset and its versions cascade."""
+    """Delete a dataset, its dependent records, and stored dataset/report files."""
     dataset = db.query(Dataset).filter(Dataset.dataset_id == dataset_id).first()
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found.")
+
+    dataset_files = [
+        DatasetService.get_storage_path(dataset.dataset_id, version.version_number)
+        for version in dataset.versions
+    ]
+    evaluation_ids = [
+        evaluation.evaluation_id
+        for version in dataset.versions
+        for evaluation in version.evaluations
+    ]
+    report_files = [
+        report_path
+        for evaluation_id in evaluation_ids
+        for report_path in (
+            settings.REPORT_STORAGE_PATH / f"evaluation_{evaluation_id}_report.json",
+            settings.REPORT_STORAGE_PATH / f"drift_eval_{evaluation_id}.json",
+        )
+    ]
+
     db.delete(dataset)
     db.commit()
+
+    cleanup_failures = []
+    for file_path in dataset_files + report_files:
+        try:
+            file_path.unlink(missing_ok=True)
+        except OSError:
+            cleanup_failures.append(file_path.name)
+    if cleanup_failures:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Dataset was deleted, but stored files could not be removed: {', '.join(cleanup_failures)}"
+        )
     return None
 
 @router.get("/datasets/{dataset_id}/versions", response_model=list[DatasetVersionRead])

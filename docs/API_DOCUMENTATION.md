@@ -33,7 +33,7 @@ The backend exposes a structured RESTful API implemented in FastAPI.
 - `POST /api/datasets/{id}/upload-version`: Upload new CSV version snapshot for an existing dataset (e.g. v2.0).
 - `GET /api/datasets/{id}`: Detailed dataset profile with all version records.
 - `PUT /api/datasets/{id}`: Update dataset metadata.
-- `DELETE /api/datasets/{id}`: Delete dataset and cascade associated versions.
+- `DELETE /api/datasets/{id}`: Delete a dataset and its versions, quality checks/results, evaluation history, CSV snapshots, and evaluation reports.
 - `GET /api/datasets/{id}/versions`: List version history for a dataset.
 - `GET /api/dataset-versions/{id}`: Inspect specific version with column profile (numerical vs categorical), record counts, quality summary, and 10-row CSV preview.
 

@@ -57,6 +57,7 @@ export const api = {
   // Datasets
   getDatasets: () => request('/datasets'),
   getDataset: (id) => request(`/datasets/${id}`),
+  deleteDataset: (id) => request(`/datasets/${id}`, { method: 'DELETE' }),
   createDataset: (data) => request('/datasets', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
