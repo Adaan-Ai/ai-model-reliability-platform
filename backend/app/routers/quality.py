@@ -25,6 +25,11 @@ def create_quality_check(chk_in: QualityCheckCreate, db: Session = Depends(get_d
     dataset = db.query(Dataset).filter(Dataset.dataset_id == chk_in.dataset_id).first()
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found.")
+    if chk_in.check_type not in QualityService.SUPPORTED_CHECK_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported quality check type: {chk_in.check_type}"
+        )
 
     chk = DataQualityCheck(
         dataset_id=chk_in.dataset_id,

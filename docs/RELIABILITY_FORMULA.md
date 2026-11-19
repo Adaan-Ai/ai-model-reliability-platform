@@ -27,7 +27,8 @@ Calculated as the arithmetic mean of all registered data quality checks executed
 $$S_{\text{DQ}} = \frac{1}{K} \sum_{k=1}^K \text{score}_k$$
 - Missing Values check: $(1 - \frac{\text{null\_cells}}{\text{total\_cells}}) \times 100$
 - Duplicates check: $(1 - \frac{\text{duplicate\_rows}}{\text{total\_rows}}) \times 100$
-- Type consistency, range validity, and schema completeness scored on a $0–100$ scale.
+- Type consistency, suspicious categorical placeholders, potential numeric outliers, and basic schema issues are scored on a $0–100$ scale using generic heuristics.
+- Potential outliers are detected with a robust median/MAD rule and an IQR fallback. They are not necessarily invalid; business-specific allowed values and ranges require an expected schema.
 - If no checks have been defined yet, defaults honestly to $100.0$.
 
 ### 2.2 Pillar 2: Model Performance Score ($S_{\text{Model}}$)

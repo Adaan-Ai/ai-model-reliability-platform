@@ -206,13 +206,15 @@ $$\text{Overall Reliability} = (0.35 \times S_{\text{DQ}}) + (0.45 \times S_{\te
 ## Part 7: Data Quality Monitoring
 
 ### Q38: What data quality checks are implemented in your platform?
-**Answer:** Six deterministic checks:
+**Answer:** Six deterministic, dataset-agnostic checks:
 1. `missing_values`: Percentage of non-null cells across the dataset.
 2. `duplicates`: Percentage of unique rows across the dataset.
-3. `data_types`: Validating that numerical features contain parseable floats/integers without string contamination.
-4. `numerical_range`: Outlier detection using the Interquartile Range ($3 \times \text{IQR}$).
-5. `categorical_validity`: Verifying that categorical values do not contain placeholder tokens like `'?'`, `'N/A'`, or whitespace.
-6. `schema_integrity`: Verifying non-empty rows, no entirely null columns, and no unnamed index columns.
+3. `data_types`: Checks mostly numeric columns for values that fail numeric parsing.
+4. `numerical_range`: Flags potential outliers using a robust median/MAD rule, with an IQR fallback; binary columns are not treated as outliers.
+5. `categorical_validity`: Flags suspicious placeholder tokens such as `'?'`, `'N/A'`, and `'unknown'`.
+6. `schema_integrity`: Checks for non-empty data, entirely null columns, unnamed index columns, blank names, and duplicate column names.
+
+These are generic heuristics, not domain rules: an outlier may be valid for a particular business, and the checks cannot know approved categories or valid ranges without an expected schema.
 
 ### Q39: How are quality check status badges determined?
 **Answer:**
