@@ -177,6 +177,6 @@ git commit -m "docs: finalize comprehensive viva preparation, learning roadmap, 
 
 - **Institution:** PES University
 - **Course:** Database Management Systems (DBMS) Laboratory Project
-- **Lead Developer:** Mohammed Adaan Hamad (`PES2UG24CS279`)
+- **Developer:** Mohammed Adaan Hamad (`PES2UG24CS279`)
 - **Co-Developer:** Navya Kishore Dash (`PES2UG24CS307`)
 - **Baseline Document:** `279_307.pdf`

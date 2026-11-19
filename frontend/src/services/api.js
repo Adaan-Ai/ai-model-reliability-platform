@@ -31,7 +31,11 @@ async function request(endpoint, options = {}) {
 
 export const api = {
   // System Health
-  checkHealth: () => fetch('/health').then(r => r.json()),
+  checkHealth: async () => {
+    const response = await fetch('/health');
+    if (!response.ok) throw new Error(`Health check failed: HTTP ${response.status}`);
+    return response.json();
+  },
 
   // Dashboard
   getDashboardOverview: () => request('/dashboard/overview'),

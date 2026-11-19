@@ -35,6 +35,9 @@ export default function EvaluationsPage({
   const [evalDetail, setEvalDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [runSearch, setRunSearch] = useState('');
+  const [reliabilityFilter, setReliabilityFilter] = useState('ALL');
+  const [runSort, setRunSort] = useState('NEWEST');
 
   // Run modal state
   const [modalOpen, setModalOpen] = useState(showLaunchModal || false);
@@ -151,6 +154,21 @@ export default function EvaluationsPage({
     }
   };
 
+  const visibleEvaluations = evaluations.filter((run) => {
+    const query = runSearch.trim().toLowerCase();
+    const matchesSearch = !query || [
+      run.evaluation_id,
+      run.model_name,
+      run.dataset_name,
+      run.algorithm,
+    ].some((value) => String(value || '').toLowerCase().includes(query));
+    const rating = run.reliability?.rating || 'N/A';
+    return matchesSearch && (reliabilityFilter === 'ALL' || rating === reliabilityFilter);
+  });
+  if (runSort === 'ACCURACY') {
+    visibleEvaluations.sort((a, b) => (Number(b.result?.accuracy) || 0) - (Number(a.result?.accuracy) || 0));
+  }
+
   const handleLaunchEvaluation = async (e) => {
     e.preventDefault();
     setExecuting(true);
@@ -202,11 +220,48 @@ export default function EvaluationsPage({
         <div className="lg:col-span-5 space-y-3">
           <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
-              Evaluation Runs ({evaluations.length})
+              Evaluation Runs ({visibleEvaluations.length} of {evaluations.length})
             </span>
             <button onClick={loadEvaluations} className="text-slate-400 hover:text-slate-600">
               <RefreshCw className="w-3.5 h-3.5" />
             </button>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <label className="relative block flex-1">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="search"
+                placeholder="Search run, model, dataset, or algorithm..."
+                value={runSearch}
+                onChange={(event) => setRunSearch(event.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition"
+                aria-label="Search evaluation runs"
+              />
+            </label>
+            <label className="sr-only" htmlFor="reliability-filter">Filter by reliability rating</label>
+            <select
+              id="reliability-filter"
+              value={reliabilityFilter}
+              onChange={(event) => setReliabilityFilter(event.target.value)}
+              className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+            >
+              <option value="ALL">All ratings</option>
+              <option value="HIGH">High reliability</option>
+              <option value="MEDIUM">Medium reliability</option>
+              <option value="LOW">Low reliability</option>
+              <option value="N/A">Not rated</option>
+            </select>
+            <label className="sr-only" htmlFor="evaluation-sort">Sort evaluation runs</label>
+            <select
+              id="evaluation-sort"
+              value={runSort}
+              onChange={(event) => setRunSort(event.target.value)}
+              className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+            >
+              <option value="NEWEST">Newest first</option>
+              <option value="ACCURACY">Best accuracy</option>
+            </select>
           </div>
 
           <div className="space-y-2 max-h-[700px] overflow-y-auto pr-1">
@@ -216,8 +271,12 @@ export default function EvaluationsPage({
               <div className="p-8 text-center bg-white rounded-xl border border-slate-200 text-xs text-slate-400">
                 No evaluations yet.
               </div>
+            ) : visibleEvaluations.length === 0 ? (
+              <div className="p-8 text-center bg-white rounded-xl border border-slate-200 text-xs text-slate-400">
+                No runs match “{runSearch}”. Try another search.
+              </div>
             ) : (
-              evaluations.map((run) => {
+              visibleEvaluations.map((run) => {
                 const isSelected = run.evaluation_id === selectedEvalId;
                 const relRating = run.reliability?.rating || 'N/A';
                 const driftStatus = run.drift?.drift_status || 'LOW';
